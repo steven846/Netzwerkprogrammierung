@@ -52,7 +52,7 @@ public class Client {
 
         textField_Username = new JTextField(10);
 
-        // Scrollbalken zur textArea hinzufügen
+
         scrollPane_Messages = new JScrollPane(textArea_Messages);
         scrollPane_Messages.setPreferredSize(new Dimension(700, 500));
         scrollPane_Messages.setMinimumSize(new Dimension(700, 500));
@@ -60,10 +60,7 @@ public class Client {
         scrollPane_Messages.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 
 
-        if(!connectToServer()) {
-            // Connect-Label anzeigen ob verbunden oder nicht...
-            //kann noch ergänzt werden
-        }
+      
 
         Thread t = new Thread(new MessagesFromServerListener());
         t.start();
@@ -86,6 +83,7 @@ public class Client {
             reader = new BufferedReader(new InputStreamReader(client.getInputStream()));
             writer = new PrintWriter(client.getOutputStream());
             appendTextMessages("Netzwerkverbindung hergestellt");
+            appendTextMessages("gebe -time- ein um die aktuelle Uhrzeit zu erfahren");
 
             return true;
         } catch(Exception e) {
@@ -108,7 +106,7 @@ public class Client {
         textArea_Messages.append(message + "\n");
     }
 
-    // Listener
+
     public class SendPressEnterListener implements KeyListener {
 
         @Override
@@ -143,7 +141,7 @@ public class Client {
 
             try {
                 while((message = reader.readLine()) != null) {
-                    appendTextMessages(message);
+                     appendTextMessages(message);
                     textArea_Messages.setCaretPosition(textArea_Messages.getText().length());
                 }
             } catch (IOException e) {

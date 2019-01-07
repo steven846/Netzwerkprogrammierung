@@ -4,22 +4,21 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
+
 
 public class Server {
     ServerSocket server;
     ArrayList<PrintWriter> list_clientWriter;
 
 
-
     public static void main(String[] args) {
         Server s = new Server();
-        if (s.runServer()){
-            s.listenToClient();
-        }else {
-            // nichts passiert
-        }
+        s.runServer();
+        s.listenToClient();
     }
 
 
@@ -42,8 +41,14 @@ public class Server {
             try {
                 while (true) {
                     String nachricht = reader.readLine();
-                    System.out.println("von Client: \n" + nachricht);
-                    sendToAllClients(nachricht);
+                    if (nachricht.contains("time")) {
+                        SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
+                        String time = format.format(Calendar.getInstance().getTime());
+                        sendToAllClients(time);
+                    } else {
+                        System.out.println("von Client: \n" + nachricht);
+                        sendToAllClients(nachricht);
+                    }
 
                 }
             } catch (IOException e) {
@@ -52,7 +57,6 @@ public class Server {
 
         }
     }
-
 
 
     public void sendToAllClients(String message) {
@@ -78,7 +82,8 @@ public class Server {
             }
         }
     }
-    public boolean runServer(){
+
+    public boolean runServer() {
         try {
             server = new ServerSocket(20);
             list_clientWriter = new ArrayList<PrintWriter>();
