@@ -60,7 +60,7 @@ public class Client {
         scrollPane_Messages.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 
 
-      
+
 
         Thread t = new Thread(new MessagesFromServerListener());
         t.start();
